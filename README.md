@@ -12,9 +12,9 @@ the bundles in your `.whisper` file:
 module.exports = function(whisper) {
   whisper.configure({
     browserify: {
-      files: ['lib/*.js'],
-      dest: ['browser/'],
-      debugging: true
+      entry: ['lib/*.js'],
+      output: ['browser/'],
+      debug: true
     }
   })
   
