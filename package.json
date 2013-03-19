@@ -1,0 +1,25 @@
+{
+  "name": "whisper-browserify",
+  "version": "0.0.0",
+  "description": "Compiles CommonJS modules with Browserify.",
+  "main": "./lib/index.js",
+  "devDependencies": {
+    "LiveScript": "~1.1.1",
+    "mocha": "~1.8.1"
+  },
+  "scripts": {
+    "cc": "./node_modules/.bin/lsc -o lib -c src/*.ls",
+    "test-cc": "./node_modules/.bin/lsc -o lib-test -c test/*.ls",
+    "pretest": "npm run-script cc && npm run-script test-cc",
+    "test": "./node_modules/.bin/mocha lib-test/*.js",
+    "pretest-browser": "npm run-script pretest && ./node_modules/.bin/browserify -o test/browser/suite-bundle.js -e test/browser/suite.js",
+    "prepublish": "npm run-script cc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/killdream/whisper-browserify.git"
+  },
+  "author": "Quildreen \"Sorella\" Motta <quildreen@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}
