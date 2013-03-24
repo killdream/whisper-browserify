@@ -112,10 +112,10 @@ module.exports = (whisper) ->
 
     bundle.bundle bundle-opts, (err, src) ->
       | err => do
-               console.error "Failed to generate a bundle for #{display options}."
+               whisper.log.error "Failed to generate a bundle for #{display options}."
                p.fail err
       | _   => do
-               console.info "Bundle generated successfully for #{display options}."
+               whisper.log.info "Bundle generated successfully for #{display options}."
                fs.write-file-sync options.output, src
                p.bind src
 
@@ -253,7 +253,7 @@ module.exports = (whisper) ->
                """
              , (env) -> do
                         (merge ...(env.browserify.map (build-bundle.bind this)))
-                          .ok     -> console.info 'All bundles generated successfuly.'
-                          .failed -> console.error 'Failed at generating some bundles.'
+                          .ok     -> whisper.log.info 'All bundles generated successfuly.'
+                          .failed -> whisper.log.fatal 'Failed at generating some bundles.'
 
 
