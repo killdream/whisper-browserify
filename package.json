@@ -1,6 +1,6 @@
 {
   "name": "whisper-browserify",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Compiles CommonJS modules with Browserify.",
   "main": "./lib/index.js",
   "devDependencies": {
@@ -27,5 +27,9 @@
     "cassie": "~1.4.1",
     "glob": "~3.1.21",
     "browserify": "~2.7.1"
-  }
+  },
+  "keywords": [
+    "whisper-plugin",
+    "browserify"
+  ]
 }
