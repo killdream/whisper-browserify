@@ -41,7 +41,7 @@ module.exports = (whisper) ->
   #
   # :: [String] -> [String]
   expand = (xs or []) -> (unique . (concat-map glob)) xs
-  
+
   #### λ callable-p
   # Checks if something can be called.
   #
@@ -50,7 +50,7 @@ module.exports = (whisper) ->
 
   #### λ display-transform
   # Displays transform information.
-  # 
+  #
   # :: [String] -> String
   display-transform = (transform or []) ->
     | transform.length is 0 => ''
@@ -73,7 +73,7 @@ module.exports = (whisper) ->
   display-ignores = (xs or []) ->
     | xs.length > 0 => ", ignoring #xs"
     | otherwise     => ''
-    
+
   #### λ display
   # Shows Bundle info in a human-readable way.
   #
@@ -81,7 +81,7 @@ module.exports = (whisper) ->
   display = (options) ->
     "(Bundle #{options.entry or ''} #{display-transform options.trasnform} -> #{options.output})
     #{display-requires options.require, options.external}
-    #{display-ignores options.ignores}. 
+    #{display-ignores options.ignores}.
 
     { globals: #{options.globals or 'detect-globals'}, debug: #{options.debug or false} }"
 
@@ -100,11 +100,11 @@ module.exports = (whisper) ->
   build-bundle = (options) ->
     p = Promise.make!
     bundle = browserify ...(expand options.entry)
-    (expand options.require).for-each  (-> bundle.require it)
-    (expand options.external).for-each (-> bundle.external it)
-    (expand options.ignore).for-each   (-> bundle.ignore it)
+    (expand options.[]require).for-each  (-> bundle.require it)
+    (expand options.[]external).for-each (-> bundle.external it)
+    (expand options.[]ignore).for-each   (-> bundle.ignore it)
     options.[]transform.for-each (transform bundle)
-    
+
     bundle-opts =
       debug: options.debug
       insert-globals: options.globals is \insert-globals
@@ -112,7 +112,7 @@ module.exports = (whisper) ->
 
     bundle.bundle bundle-opts, (err, src) ->
       | err => do
-               whisper.log.error "Failed to generate a bundle for #{display options}."
+               whisper.log.error "Failed to generate a bundle for #{display options}.\n #err"
                p.fail err
       | _   => do
                whisper.log.info "Bundle generated successfully for #{display options}."
@@ -252,8 +252,6 @@ module.exports = (whisper) ->
                    }
                """
              , (env) -> do
-                        (merge ...(env.browserify.map (build-bundle.bind this)))
+                        (merge ...(env.browserify.map build-bundle))
                           .ok     -> whisper.log.info 'All bundles generated successfuly.'
                           .failed -> whisper.log.fatal 'Failed at generating some bundles.'
-
-
